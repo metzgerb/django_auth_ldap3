@@ -213,7 +213,7 @@ class LDAPBackend(object):
         """
 
         #search through BASE_DNs for user, store first BASE_DN where user found
-        server = ldap3.Server(settings.LDAP_URI)
+        server = ldap3.Server(settings.URI)
         c = ldap3.Connection(server, auto_bind=True)
         ldap_bind_user = None
         sfilter = '(&(objectClass=inetOrgPerson)(uid=' + username + '))'
