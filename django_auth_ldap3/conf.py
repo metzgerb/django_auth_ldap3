@@ -12,7 +12,7 @@ class LDAPSettings(object):
     prefix = 'AUTH_LDAP_'
     defaults = {
         'ADMIN_GROUP': None,
-        'BASE_DN': 'dc=example,dc=com',
+        'BASE_DN': ['dc=example,dc=com'],
         'BIND_TEMPLATE': 'uid={username},{base_dn}',
         'GROUP_MAP': None,
         'LOGIN_GROUP': '*',

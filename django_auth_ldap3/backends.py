@@ -74,7 +74,7 @@ class LDAPBackend(object):
 
     def authenticate(self, username=None, password=None):
         """
-        Required for Django auth. Authenticate the uesr against the LDAP
+        Required for Django auth. Authenticate the user against the LDAP
         backend and populate the local User model if this is the first
         time the user has authenticated.
         """
@@ -212,18 +212,15 @@ class LDAPBackend(object):
         This implements direct binding.
         """
 
-        # Construct the user to bind as
-        if settings.BIND_TEMPLATE:
-            # Full CN
-            ldap_bind_user = settings.BIND_TEMPLATE.format(username=username,
-                    base_dn=settings.BASE_DN)
-        elif settings.USERNAME_PREFIX:
-            # Prepend a prefix: useful for DOMAIN\user
-            ldap_bind_user = settings.USERNAME_PREFIX + username
-        elif settings.USERNAME_SUFFIX:
-            # Append a suffix: useful for user@domain
-            ldap_bind_user = username + settings.USERNAME_SUFFIX
-        logger.debug('Attempting to authenticate to LDAP by binding as ' + ldap_bind_user)
+        #search through BASE_DNs for user, store first BASE_DN where user found
+        server = ldap3.Server(settings.LDAP_URI)
+        c = ldap3.Connection(server, auto_bind=True)
+        ldap_bind_user = None
+        sfilter = '(&(objectClass=inetOrgPerson)(uid=' + username + '))'
+        for dn in settings.BASE_DN:
+            c.search(search_base = dn, search_filter = sfilter, search_scope = ldap3.LEVEL, attributes = ['uid'], size_limit=1)
+            if c.response:
+                ldap_bind_user = c.response[0]['dn']
 
         try:
             c = ldap3.Connection(self.backend,
