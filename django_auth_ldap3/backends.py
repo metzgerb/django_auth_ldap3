@@ -193,13 +193,15 @@ class LDAPBackend(object):
 
         A dictionary of attributes will be returned.
         """
-        connection.search(settings.BASE_DN, ldap_filter, **kwargs)
-        entry = None
-        for d in connection.response:
-            if d['type'] == 'searchResEntry':
-                entry = d['attributes']
-                entry['dn'] = d['dn']
-                break
+        for dn in settings.BASE_DN:
+            connection.search(dn, ldap_filter, **kwargs)
+            entry = None
+            for d in connection.response:
+                if d['type'] == 'searchResEntry':
+                    entry = d['attributes']
+                    entry['dn'] = d['dn']
+                    break
+        
         return entry
 
     def bind_ldap_user(self, username, password):
