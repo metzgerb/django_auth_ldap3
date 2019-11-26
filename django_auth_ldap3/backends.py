@@ -225,6 +225,10 @@ class LDAPBackend(object):
             if c.response:
                 ldap_bind_user = c.response[0]['dn']
         
+        #check if we failed to find someone
+        if not ldap_bind_user:
+            return None
+        
         try:
             c = ldap3.Connection(self.backend,
                     read_only=True,
