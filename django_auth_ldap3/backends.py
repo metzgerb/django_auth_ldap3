@@ -218,10 +218,10 @@ class LDAPBackend(object):
         server = ldap3.Server(settings.URI)
         c = ldap3.Connection(server, auto_bind=True)
         ldap_bind_user = None
-        sfilter = '(&(objectClass=inetOrgPerson)(uid=' + username + '))'
+        sfilter = '(&(objectClass=inetOrgPerson)(cn=' + username + '))'
         
         for dn in settings.BASE_DN:
-            c.search(search_base = dn, search_filter = sfilter, search_scope = ldap3.LEVEL, attributes = ['uid'], size_limit=1)
+            c.search(search_base = dn, search_filter = sfilter, search_scope = ldap3.LEVEL, attributes = ['cn'], size_limit=1)
             if c.response:
                 ldap_bind_user = c.response[0]['dn']
         
