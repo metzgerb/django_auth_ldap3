@@ -224,6 +224,7 @@ class LDAPBackend(object):
             c.search(search_base = dn, search_filter = sfilter, search_scope = ldap3.LEVEL, attributes = ['cn'], size_limit=1)
             if c.response:
                 ldap_bind_user = c.response[0]['dn']
+                break
         
         #check if we failed to find someone
         if not ldap_bind_user:
