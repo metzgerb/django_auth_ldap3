@@ -201,7 +201,10 @@ class LDAPBackend(object):
                     entry = d['attributes']
                     entry['dn'] = d['dn']
                     break
-        
+            
+            if entry:
+                break
+            
         return entry
 
     def bind_ldap_user(self, username, password):
