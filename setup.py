@@ -3,13 +3,13 @@ from setuptools import find_packages, setup
 from django_auth_ldap3 import __version__ as version
 
 setup(
-    name='django_auth_ldap3',
+    name='django_multiauth_ldap3',
     version=version,
     license='BSD',
-    author='Sam Kingston',
-    author_email='sam@sjkwi.com.au',
-    description='A library for connecting Django\'s authentication system to an LDAP directory',
-    url='https://github.com/sjkingo/django_auth_ldap3',
+    author='Brian Metzger',
+    author_email='bdmetzger33@gmail.com',
+    description='A library for connecting Django\'s authentication system to an LDAP directory using multiple DNs',
+    url='https://github.com/metzgerb/django_auth_ldap3',
     install_requires=[
         'Django >= 1.6.10',
         'ldap3 >= 0.9.7.1',
