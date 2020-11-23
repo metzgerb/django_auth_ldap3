@@ -116,6 +116,7 @@ class LDAPBackend(object):
                     is_staff=admin,
                     is_active=True
             )
+            django_user.set_unusable_password() #bdm - added to prevent password resets. -assumes current users have already set this property (since this is on creation only)
             django_user.save()
         else:
             # If the user wasn't created, update its fields from the directory.
